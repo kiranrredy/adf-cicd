@@ -23,16 +23,18 @@
 			],
 			"transformations": [
 				{
-					"name": "DerivedSourceSink"
+					"name": "DeriveSourceSinkJson",
+					"description": "Creating 'subjson' column using the columns 'SOURCE_NAME, SOURCE_TYPE, SOURCE_PHYSICALTYPE, TARGET_NAME, TARGET_TYPE, TARGET_PHYSICALTYPE, subjson'"
 				},
 				{
-					"name": "AggregateMappings"
+					"name": "AggregateMappings",
+					"description": "Aggregating data (of 'subjson' column) by producing column 'mappings'"
 				},
 				{
 					"name": "AppendTranslator"
 				}
 			],
-			"script": "source(output(\n\t\tSOURCE_NAME as string,\n\t\tSOURCE_TYPE as string,\n\t\tSOURCE_PHYSICALTYPE as string,\n\t\tTARGET_NAME as string,\n\t\tTARGET_TYPE as string,\n\t\tTARGET_PHYSICALTYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ReadSourceData\nReadSourceData derive(subjson = @(source=@(name=SOURCE_NAME,\n\t\ttype=SOURCE_TYPE,\n\t\tphysicalType=SOURCE_PHYSICALTYPE),\n\t\tsink=@(name=TARGET_NAME,\n\t\ttype=TARGET_TYPE,\n\t\tphysicalType=TARGET_PHYSICALTYPE))) ~> DerivedSourceSink\nDerivedSourceSink aggregate(mappings = collect(subjson)) ~> AggregateMappings\nAggregateMappings derive(type = concat(\"TabularTranslator\"),\n\t\tmappings = mappings) ~> AppendTranslator\nAppendTranslator sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\ttype,\n\t\tmappings\n\t)) ~> ExportJson"
+			"script": "source(output(\n\t\tSOURCE_NAME as string,\n\t\tSOURCE_TYPE as string,\n\t\tSOURCE_PHYSICALTYPE as string,\n\t\tTARGET_NAME as string,\n\t\tTARGET_TYPE as string,\n\t\tTARGET_PHYSICALTYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ReadSourceData\nReadSourceData derive(subjson = @(source=@(name=SOURCE_NAME,\n\t\ttype=SOURCE_TYPE,\n\t\tphysicalType=SOURCE_PHYSICALTYPE),\n\t\tsink=@(name=TARGET_NAME,\n\t\ttype=TARGET_TYPE,\n\t\tphysicalType=TARGET_PHYSICALTYPE))) ~> DeriveSourceSinkJson\nDeriveSourceSinkJson aggregate(mappings = collect(subjson)) ~> AggregateMappings\nAggregateMappings derive(type = concat(\"TabularTranslator\"),\n\t\tmappings = mappings) ~> AppendTranslator\nAppendTranslator sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\ttype,\n\t\tmappings\n\t)) ~> ExportJson"
 		}
 	}
 }
