@@ -1,0 +1,290 @@
+{
+	"name": "ncp_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServ_ testadfstoragekr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "NCR.json",
+				"folderPath": "ev",
+				"container": "adfsource"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Scheme": {
+					"type": "object",
+					"properties": {
+						"SchemeCode": {
+							"type": "string"
+						},
+						"SchemeData": {
+							"type": "object",
+							"properties": {
+								"OrganisationName": {
+									"type": "string"
+								},
+								"Website": {
+									"type": "string"
+								},
+								"TelephoneNo": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"ChargeDevice": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"ChargeDeviceId": {
+								"type": "string"
+							},
+							"ChargeDeviceRef": {
+								"type": "string"
+							},
+							"ChargeDeviceName": {
+								"type": "string"
+							},
+							"ChargeDeviceText": {
+								"type": "null"
+							},
+							"ChargeDeviceLocation": {
+								"type": "object",
+								"properties": {
+									"Latitude": {
+										"type": "string"
+									},
+									"Longitude": {
+										"type": "string"
+									},
+									"Address": {
+										"type": "object",
+										"properties": {
+											"SubBuildingName": {
+												"type": "null"
+											},
+											"BuildingName": {
+												"type": "string"
+											},
+											"BuildingNumber": {
+												"type": "string"
+											},
+											"Thoroughfare": {
+												"type": "string"
+											},
+											"Street": {
+												"type": "string"
+											},
+											"DoubleDependantLocality": {
+												"type": "null"
+											},
+											"DependantLocality": {
+												"type": "null"
+											},
+											"PostTown": {
+												"type": "string"
+											},
+											"County": {
+												"type": "string"
+											},
+											"PostCode": {
+												"type": "string"
+											},
+											"Country": {
+												"type": "string"
+											},
+											"UPRN": {
+												"type": "null"
+											}
+										}
+									},
+									"LocationShortDescription": {
+										"type": "null"
+									},
+									"LocationLongDescription": {
+										"type": "string"
+									}
+								}
+							},
+							"ChargeDeviceManufacturer": {
+								"type": "null"
+							},
+							"ChargeDeviceModel": {
+								"type": "null"
+							},
+							"PublishStatusID": {
+								"type": "string"
+							},
+							"DateCreated": {
+								"type": "string"
+							},
+							"DateUpdated": {
+								"type": "string"
+							},
+							"Attribution": {
+								"type": "string"
+							},
+							"DateDeleted": {
+								"type": "string"
+							},
+							"Connector": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"ConnectorId": {
+											"type": "string"
+										},
+										"ConnectorType": {
+											"type": "string"
+										},
+										"RatedOutputkW": {
+											"type": "string"
+										},
+										"RatedOutputVoltage": {
+											"type": "string"
+										},
+										"RatedOutputCurrent": {
+											"type": "string"
+										},
+										"ChargeMethod": {
+											"type": "string"
+										},
+										"ChargeMode": {
+											"type": "string"
+										},
+										"ChargePointStatus": {
+											"type": "string"
+										},
+										"TetheredCable": {
+											"type": "string"
+										},
+										"Information": {
+											"type": "string"
+										},
+										"Validated": {
+											"type": "string"
+										}
+									}
+								}
+							},
+							"DeviceOwner": {
+								"type": "object",
+								"properties": {
+									"OrganisationName": {
+										"type": "string"
+									},
+									"SchemeCode": {
+										"type": "string"
+									},
+									"Website": {
+										"type": "string"
+									},
+									"TelephoneNo": {
+										"type": "string"
+									}
+								}
+							},
+							"DeviceController": {
+								"type": "object",
+								"properties": {
+									"OrganisationName": {
+										"type": "string"
+									},
+									"SchemeCode": {
+										"type": "string"
+									},
+									"Website": {
+										"type": "string"
+									},
+									"TelephoneNo": {
+										"type": "string"
+									}
+								}
+							},
+							"DeviceAccess": {
+								"type": "array"
+							},
+							"DeviceNetworks": {
+								"type": "string"
+							},
+							"ChargeDeviceStatus": {
+								"type": "string"
+							},
+							"PublishStatus": {
+								"type": "string"
+							},
+							"DeviceValidated": {
+								"type": "string"
+							},
+							"RecordModerated": {
+								"type": "string"
+							},
+							"RecordLastUpdated": {
+								"type": "string"
+							},
+							"RecordLastUpdatedBy": {
+								"type": "string"
+							},
+							"PaymentRequiredFlag": {
+								"type": "boolean"
+							},
+							"PaymentDetails": {
+								"type": "string"
+							},
+							"SubscriptionRequiredFlag": {
+								"type": "boolean"
+							},
+							"SubscriptionDetails": {
+								"type": "string"
+							},
+							"ParkingFeesFlag": {
+								"type": "boolean"
+							},
+							"ParkingFeesDetails": {
+								"type": "string"
+							},
+							"ParkingFeesUrl": {
+								"type": "null"
+							},
+							"AccessRestrictionFlag": {
+								"type": "boolean"
+							},
+							"AccessRestrictionDetails": {
+								"type": "string"
+							},
+							"PhysicalRestrictionFlag": {
+								"type": "boolean"
+							},
+							"PhysicalRestrictionText": {
+								"type": "string"
+							},
+							"OnStreetFlag": {
+								"type": "boolean"
+							},
+							"LocationType": {
+								"type": "string"
+							},
+							"Bearing": {
+								"type": "null"
+							},
+							"Accessible24Hours": {
+								"type": "boolean"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

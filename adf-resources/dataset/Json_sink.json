@@ -1,0 +1,21 @@
+{
+	"name": "Json_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServ_ testadfstoragekr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "final.json",
+				"folderPath": "output_json",
+				"container": "adfsource"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

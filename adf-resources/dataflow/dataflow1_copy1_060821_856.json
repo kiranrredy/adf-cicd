@@ -1,0 +1,41 @@
+{
+	"name": "dataflow1_copy1_060821_856",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "adf_input_ds",
+						"type": "DatasetReference"
+					},
+					"name": "csvds"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Json_sink",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "DerivedColumn3"
+				}
+			],
+			"script": "source(output(\n\t\tSOURCE_NAME as string,\n\t\tSOURCE_TYPE as string,\n\t\tSOURCE_PHYSICALTYPE as string,\n\t\tTARGET_NAME as string,\n\t\tTARGET_TYPE as string,\n\t\tTARGET_PHYSICALTYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> csvds\ncsvds derive(subjson = @(source=@(name=SOURCE_NAME,\n\t\ttype=SOURCE_TYPE,\n\t\tphysicalType=SOURCE_PHYSICALTYPE),\n\t\tsink=@(name=TARGET_NAME,\n\t\ttype=TARGET_TYPE,\n\t\tphysicalType=TARGET_PHYSICALTYPE))) ~> DerivedColumn1\nDerivedColumn1 aggregate(mappings = collect(subjson)) ~> Aggregate1\nAggregate1 derive(type = concat(\"TabularTranslator\"),\n\t\tmappings = mappings) ~> DerivedColumn2\nDerivedColumn2 derive(out_json = concat('\"type\":', '\"',toString(type),'\",\"', 'mappings\":', toString(mappings))) ~> DerivedColumn3\nDerivedColumn3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\ttype,\n\t\tmappings\n\t)) ~> sink1"
+		}
+	}
+}

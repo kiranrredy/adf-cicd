@@ -1,0 +1,24 @@
+{
+	"name": "output_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServ_ testadfstoragekr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "out.csv",
+				"folderPath": "output",
+				"container": "adfsource"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

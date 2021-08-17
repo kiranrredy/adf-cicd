@@ -1,0 +1,20 @@
+{
+	"name": "txt_out",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServ_ testadfstoragekr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "out.txt",
+				"folderPath": "output",
+				"container": "adfsource"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,89 @@
+{
+	"name": "table_to_json",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_csv_rec",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "csv_rec_to_json",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings",
+										"filePattern": "arrayOfObjects"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "AzureSqlTable1",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "crm_profiles_ds",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"mapping": {
+				"type": "object",
+				"defaultValue": {
+					"type": "TabularTranslator",
+					"mappings": [
+						{
+							"source": {
+								"name": "SOURCE_NAME",
+								"type": "SOURCE_TYPE",
+								"physicalType": "SOURCE_PHYSICALTYPE"
+							},
+							"sink": {
+								"name": "TARGET_NAME",
+								"type": "TARGET_TYPE",
+								"physicalType": "TARGET_PHYSICALTYPE"
+							}
+						}
+					]
+				}
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-05T09:25:35Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

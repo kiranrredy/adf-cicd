@@ -1,0 +1,67 @@
+{
+	"name": "json_to_json",
+	"properties": {
+		"activities": [
+			{
+				"name": "map_json_to_json",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"value": "@json(string(pipeline().parameters.mapping))",
+						"type": "Expression"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "crm_profiles_ds",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Json_sink",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"mapping": {
+				"type": "object"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-08-05T12:21:27Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

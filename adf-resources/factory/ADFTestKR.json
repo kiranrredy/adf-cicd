@@ -1,0 +1,9 @@
+{
+	"name": "ADFTestKR",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8e911bd7-3043-4dc5-b84a-ea4e5e274084",
+		"tenantId": "ec492564-4fef-428e-9d5a-fcf0468ffa06"
+	}
+}

@@ -1,0 +1,650 @@
+{
+	"name": "AzureSqlTable2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "chargeDeviceID",
+				"type": "varchar"
+			},
+			{
+				"name": "reference",
+				"type": "varchar"
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			},
+			{
+				"name": "latitude",
+				"type": "varchar"
+			},
+			{
+				"name": "longitude",
+				"type": "varchar"
+			},
+			{
+				"name": "subBuildingName",
+				"type": "varchar"
+			},
+			{
+				"name": "buildingName",
+				"type": "varchar"
+			},
+			{
+				"name": "buildingNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "thoroughfare",
+				"type": "varchar"
+			},
+			{
+				"name": "street",
+				"type": "varchar"
+			},
+			{
+				"name": "doubleDependantLocality",
+				"type": "varchar"
+			},
+			{
+				"name": "dependantLocality",
+				"type": "varchar"
+			},
+			{
+				"name": "town",
+				"type": "varchar"
+			},
+			{
+				"name": "county",
+				"type": "varchar"
+			},
+			{
+				"name": "postcode",
+				"type": "varchar"
+			},
+			{
+				"name": "countryCode",
+				"type": "varchar"
+			},
+			{
+				"name": "uprn",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "locationShortDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "locationLongDescription",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceManufacturer",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceModel",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceOwnerName",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceOwnerWebsite",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceOwnerTelephoneNo",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceOwnerContactName",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceControllerName",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceControllerWebsite",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceControllerTelephoneNo",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceControllerContactName",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceNetworks",
+				"type": "varchar"
+			},
+			{
+				"name": "chargeDeviceStatus",
+				"type": "varchar"
+			},
+			{
+				"name": "publishStatus",
+				"type": "varchar"
+			},
+			{
+				"name": "deviceValidated",
+				"type": "varchar"
+			},
+			{
+				"name": "dateCreated",
+				"type": "varchar"
+			},
+			{
+				"name": "dateUpdated",
+				"type": "varchar"
+			},
+			{
+				"name": "moderated",
+				"type": "varchar"
+			},
+			{
+				"name": "lastUpdated",
+				"type": "varchar"
+			},
+			{
+				"name": "lastUpdatedBy",
+				"type": "varchar"
+			},
+			{
+				"name": "attribution",
+				"type": "varchar"
+			},
+			{
+				"name": "dateDeleted",
+				"type": "varchar"
+			},
+			{
+				"name": "paymentRequired",
+				"type": "varchar"
+			},
+			{
+				"name": "paymentRequiredDetails",
+				"type": "varchar"
+			},
+			{
+				"name": "subscriptionRequired",
+				"type": "varchar"
+			},
+			{
+				"name": "subscriptionRequiredDetails",
+				"type": "varchar"
+			},
+			{
+				"name": "parkingFeesFlag",
+				"type": "varchar"
+			},
+			{
+				"name": "parkingFeesDetails",
+				"type": "varchar"
+			},
+			{
+				"name": "parkingFeesUrl",
+				"type": "varchar"
+			},
+			{
+				"name": "accessRestrictionFlag",
+				"type": "varchar"
+			},
+			{
+				"name": "accessRestrictionDetails",
+				"type": "varchar"
+			},
+			{
+				"name": "physicalRestrictionFlag",
+				"type": "varchar"
+			},
+			{
+				"name": "physicalRestrictionText",
+				"type": "varchar"
+			},
+			{
+				"name": "onStreetFlag",
+				"type": "varchar"
+			},
+			{
+				"name": "locationType",
+				"type": "varchar"
+			},
+			{
+				"name": "bearing",
+				"type": "varchar"
+			},
+			{
+				"name": "access24Hours",
+				"type": "varchar"
+			},
+			{
+				"name": "accessMondayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessMondayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessTuesdayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessTuesdayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessWednesdayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessWednesdayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessThursdayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessThursdayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessFridayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessFridayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessSaturdayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessSaturdayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "accessSundayFrom",
+				"type": "varchar"
+			},
+			{
+				"name": "accessSundayTo",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector1Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector2Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector3Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector4Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector5Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector6Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector7Validated",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8ID",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8Type",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8RatedOutputKW",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8OutputCurrent",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8RatedVoltage",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8ChargeMethod",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8ChargeMode",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8TetheredCable",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8Status",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8Description",
+				"type": "varchar"
+			},
+			{
+				"name": "connector8Validated",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "national_charge_points"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

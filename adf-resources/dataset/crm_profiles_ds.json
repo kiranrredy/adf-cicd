@@ -1,0 +1,21 @@
+{
+	"name": "crm_profiles_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServ_ testadfstoragekr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "crm_profiles.json",
+				"folderPath": "output",
+				"container": "adfsource"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
