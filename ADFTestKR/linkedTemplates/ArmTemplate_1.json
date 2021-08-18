@@ -1,0 +1,480 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "ADFTestKR"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ncp_csv_database')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ncp_csv_database",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ncp_csv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlTable2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": [],
+				"lastPublishTime": "2021-08-10T08:07:37Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ref_csv_json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "get_template",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select template as mapping from ref_json_template",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "csv_to_json",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "get_template",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "adf_input_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "crm_profiles_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "csv_to_json",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@items",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "json_foreach_json",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "JsonSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "JsonReadSettings"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"value": "@json(string(pipeline().parameters.mapping))",
+											"type": "Expression"
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "crm_profiles_ds",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Json_sink",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"mapping": {
+						"type": "object"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2021-08-05T11:09:22Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/table_to_json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_csv_rec",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "csv_rec_to_json",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"filePattern": "arrayOfObjects"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "AzureSqlTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "crm_profiles_ds",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"parameters": {
+					"mapping": {
+						"type": "object",
+						"defaultValue": {
+							"type": "TabularTranslator",
+							"mappings": [
+								{
+									"source": {
+										"name": "SOURCE_NAME",
+										"type": "SOURCE_TYPE",
+										"physicalType": "SOURCE_PHYSICALTYPE"
+									},
+									"sink": {
+										"name": "TARGET_NAME",
+										"type": "TARGET_TYPE",
+										"physicalType": "TARGET_PHYSICALTYPE"
+									}
+								}
+							]
+						}
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2021-08-05T09:25:35Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1_copy1_060821_856')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "adf_input_ds",
+								"type": "DatasetReference"
+							},
+							"name": "csvds"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Json_sink",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						},
+						{
+							"name": "Aggregate1"
+						},
+						{
+							"name": "DerivedColumn2"
+						},
+						{
+							"name": "DerivedColumn3"
+						}
+					],
+					"script": "source(output(\n\t\tSOURCE_NAME as string,\n\t\tSOURCE_TYPE as string,\n\t\tSOURCE_PHYSICALTYPE as string,\n\t\tTARGET_NAME as string,\n\t\tTARGET_TYPE as string,\n\t\tTARGET_PHYSICALTYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> csvds\ncsvds derive(subjson = @(source=@(name=SOURCE_NAME,\n\t\ttype=SOURCE_TYPE,\n\t\tphysicalType=SOURCE_PHYSICALTYPE),\n\t\tsink=@(name=TARGET_NAME,\n\t\ttype=TARGET_TYPE,\n\t\tphysicalType=TARGET_PHYSICALTYPE))) ~> DerivedColumn1\nDerivedColumn1 aggregate(mappings = collect(subjson)) ~> Aggregate1\nAggregate1 derive(type = concat(\"TabularTranslator\"),\n\t\tmappings = mappings) ~> DerivedColumn2\nDerivedColumn2 derive(out_json = concat('\"type\":', '\"',toString(type),'\",\"', 'mappings\":', toString(mappings))) ~> DerivedColumn3\nDerivedColumn3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\ttype,\n\t\tmappings\n\t)) ~> sink1"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_csv_to_json')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "adf_input_ds",
+								"type": "DatasetReference"
+							},
+							"name": "ReadSourceData"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Json_sink",
+								"type": "DatasetReference"
+							},
+							"name": "ExportJson"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DeriveSourceSinkJson",
+							"description": "Creating 'subjson' column using the columns 'SOURCE_NAME, SOURCE_TYPE, SOURCE_PHYSICALTYPE, TARGET_NAME, TARGET_TYPE, TARGET_PHYSICALTYPE, subjson'"
+						},
+						{
+							"name": "AggregateMappings",
+							"description": "Aggregating data (of 'subjson' column) by producing column 'mappings'"
+						},
+						{
+							"name": "AppendTranslator"
+						}
+					],
+					"script": "source(output(\n\t\tSOURCE_NAME as string,\n\t\tSOURCE_TYPE as string,\n\t\tSOURCE_PHYSICALTYPE as string,\n\t\tTARGET_NAME as string,\n\t\tTARGET_TYPE as string,\n\t\tTARGET_PHYSICALTYPE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ReadSourceData\nReadSourceData derive(subjson = @(source=@(name=SOURCE_NAME,\n\t\ttype=SOURCE_TYPE,\n\t\tphysicalType=SOURCE_PHYSICALTYPE),\n\t\tsink=@(name=TARGET_NAME,\n\t\ttype=TARGET_TYPE,\n\t\tphysicalType=TARGET_PHYSICALTYPE))) ~> DeriveSourceSinkJson\nDeriveSourceSinkJson aggregate(mappings = collect(subjson)) ~> AggregateMappings\nAggregateMappings derive(type = concat(\"TabularTranslator\"),\n\t\tmappings = mappings) ~> AppendTranslator\nAppendTranslator sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\ttype,\n\t\tmappings\n\t)) ~> ExportJson"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "data_flow_job",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow_csv_to_json",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ReadSourceData": {},
+									"ExportJson": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"annotations": [],
+				"lastPublishTime": "2021-08-06T10:58:16Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_csv_to_json')]"
+			]
+		}
+	]
+}
